@@ -1,9 +1,6 @@
 import React, { useId } from 'react';
-import { Image } from '@/components/ui/image';
-import { getSymbolImage } from '@/config/gameAssets';
 
-// Original Donut Division symbol art. Every icon is drawn from scratch as
-// flat vector shapes with heavy black outlines to match the game's look.
+// Self-contained vector symbols avoid external image failures in deployed reels.
 
 const OUTLINE = '#151515';
 
@@ -52,7 +49,7 @@ function Donut({ uid, dough = '#F0B26B', icing, sprinkles = [], chips = false })
   );
 }
 
-function Portrait({ bg, skin, shirt, hat, hatType, glasses, hair, beard, badge }) {
+function Portrait({ bg, skin, shirt, hat, hatType, glasses = false, hair, beard = null, badge = false }) {
   return (
     <Tile bg={bg}>
       <path d="M16 96 q4 -28 34 -28 q30 0 34 28 z" fill={shirt} stroke={OUTLINE} strokeWidth="6" />
@@ -154,6 +151,16 @@ function symbolArt(id, uid) {
           <path d="M35 66 h30 l2 9 h-34 z" fill="#FFF6E2" stroke={OUTLINE} strokeWidth="5" />
         </Tile>
       );
+    case 'REDLIGHT':
+      return (
+        <Tile bg="#CDE6F7">
+          <path d="M29 68 h42 l-5 20 H34 z" fill="#3E5269" stroke={OUTLINE} strokeWidth="6" />
+          <rect x="24" y="62" width="52" height="9" rx="4" fill="#66788D" stroke={OUTLINE} strokeWidth="5" />
+          <path d="M32 60 V43 a18 18 0 0 1 36 0 v17 z" fill="#D8412F" stroke={OUTLINE} strokeWidth="6" />
+          <path d="M39 46 a11 11 0 0 1 22 0 v7 H39 z" fill="#FF6B51" />
+          <path d="M50 15 v8 M24 26 l6 6 M76 26 l-6 6" stroke="#FFD44D" strokeWidth="5" strokeLinecap="round" />
+        </Tile>
+      );
     case 'COFFEE':
       return (
         <Tile bg="#FFE2C6">
@@ -220,17 +227,25 @@ function symbolArt(id, uid) {
         </Tile>
       );
     default:
-      return <Tile bg="#EDEDED" />;
+      return (
+        <Tile bg="#EDEDED">
+          <text
+            x="50"
+            y="57"
+            textAnchor="middle"
+            fontFamily="system-ui, sans-serif"
+            fontSize="14"
+            fontWeight="800"
+            fill={OUTLINE}
+          >
+            {id}
+          </text>
+        </Tile>
+      );
   }
 }
 
 export default function SymbolArt({ id, className = '' }) {
   const uid = useId().replace(/[:]/g, '');
-  const image = getSymbolImage(id);
-
-  // Supplied artwork wins; the vector library covers every other symbol.
-  if (image) {
-    return <Image src={image} alt="" fittingType="fill" className={className} />;
-  }
   return <div className={className}>{symbolArt(id, uid)}</div>;
 }
