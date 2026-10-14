@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 // Floating announcement banner over the reels.
-export default function WinBanner({ banner, className }) {
+export default function WinBanner({ banner, className = '' }) {
   if (!banner) return null;
   return (
     <div className={cn('pointer-events-none absolute left-1/2 top-2 z-40 w-[92%] max-w-md -translate-x-1/2', className)}>

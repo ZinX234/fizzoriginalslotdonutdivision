@@ -9,6 +9,14 @@ const clearStoredAccessToken = () => {
 	window.localStorage.removeItem('token');
 }
 
+const getAccessToken = () => {
+	if (isNode) {
+		return null;
+	}
+	const queryToken = new URLSearchParams(window.location.search).get('access_token');
+	return queryToken || window.localStorage.getItem('base44_access_token') || window.localStorage.getItem('token');
+}
+
 const getAppParams = () => {
 	if (isClearAccessTokenRequested()) {
 		clearStoredAccessToken();

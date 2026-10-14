@@ -1,5 +1,6 @@
 
 import react from '@vitejs/plugin-react'
+import base44 from '@base44/vite-plugin'
 import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
